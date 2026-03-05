@@ -31,18 +31,20 @@ void SoundPlay::PauseAudioDevice(int nPauseOn)
 
 bool SoundPlay::SetFormat(int nChannels, int nSamplerate)
 {
+	SDL_zero(m_AudioSpec);
 	m_AudioSpec.freq		= nSamplerate;
 	m_AudioSpec.format		= AUDIO_S16SYS;
 	m_AudioSpec.channels	= nChannels;
-	m_AudioSpec.samples		= 1024;
-	m_AudioSpec.silence		= 0;
+	m_AudioSpec.samples		= 4096;
+	//m_AudioSpec.silence		= 0;
 	m_AudioSpec.callback	= nullptr;
 
-	m_AudioDeviceID = SDL_OpenAudioDevice(nullptr, 0, &m_AudioSpec, nullptr, SDL_AUDIO_ALLOW_FREQUENCY_CHANGE);
+	m_AudioDeviceID = SDL_OpenAudioDevice(nullptr, 0, &m_AudioSpec, nullptr, 0);
 	if (m_AudioDeviceID < 2)
 	{
 		return false;
 	}
+	SDL_PauseAudioDevice(m_AudioDeviceID, 0);
 	return true;
 }
 

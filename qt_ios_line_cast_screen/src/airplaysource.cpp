@@ -44,6 +44,7 @@ AirPlaySource::AirPlaySource(QWidget *parent) : QWidget(parent)
 
     m_pSoundPlay = new SoundPlay;
     m_pSoundPlay->Init();
+	m_pSoundPlay->SetFormat(2, 48000);
 }
 
 AirPlaySource::~AirPlaySource()
@@ -132,10 +133,10 @@ void AirPlaySource::audio_process(void* user_data, unsigned char* buffer, int le
 //        printf("user_data[%u|%s] %s: %d\n", user_data->device_index, user_data->serial_number, __FUNCTION__, length);
     AirPlaySource* m_AirPlaySource = (AirPlaySource*)user_data;
 
-    if (g_pVideoWindow->GetFullWindowSource() == m_AirPlaySource)
-    {
-        m_AirPlaySource->m_pSoundPlay->PushData(buffer, length);
-    }
+    //if (g_pVideoWindow->GetFullWindowSource() == m_AirPlaySource)
+    //{
+    m_AirPlaySource->m_pSoundPlay->PushData(buffer, length);
+    //}
     m_AirPlaySource->m_pSoundPlay->PauseAudioDevice(0);
 }
 
